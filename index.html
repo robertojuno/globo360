@@ -1,39 +1,47 @@
+SCRIPT MONDO 🌍 
+
+
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <title>Globo 360 Video</title>
+  <meta charset="UTF-8" />
+  <title>Globo Video con Stati</title>
   <style>
-    body, html { margin: 0; padding: 0; overflow: hidden; background: #000; }
-    #globeViz { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-    .video-tooltip {
-      position: absolute;
-      display: none;
-      background-color: rgba(0, 0, 0, 0.85);
-      padding: 10px;
-      border-radius: 8px;
-      color: white;
-      z-index: 10;
-      pointer-events: none;
-      width: 300px;
-    }
-    .video-tooltip iframe {
-      width: 100%;
-      height: 170px;
-      border: none;
-    }
+    body { margin: 0; background: black; }
+    canvas { display: block; }
   </style>
+  <script src="https://unpkg.com/globe.gl"></script>
 </head>
 <body>
-  <div id="globeViz"></div>
-  <div class="video-tooltip" id="tooltip"></div>
+  <div id="globeViz" style="width: 100vw; height: 100vh;"></div>
+  <script>
+    const data = [
+      {
+        lat: 43.8562586,
+        lng: 18.41330763,
+        text: 'Sarajevo',
+        link: 'https://youtu.be/GqQKJHXoUD8?si=LWFZ9f0ckd681Trk'
+      },
+      {
+        lat: 28.0026,
+        lng: 86.8528,
+        text: 'Everest Basecamp',
+        link: 'https://youtu.be/q7_jPoJM-Jc?si=x0bdF3F7mz2H5CY9'
+      }
+    ];
 
-  <!-- Librerie -->
-  <script src="https://unpkg.com/three@0.152.2/build/three.min.js"></script>
-  <script src="https://unpkg.com/globe.gl@3.6.3"></script>
-  <script src="https://unpkg.com/topojson-client@3"></script>
-
-  <!-- Script personale -->
-  <script src="script.js"></script>
+    Globe()
+      (document.getElementById('globeViz'))
+      .globeImageUrl('//unpkg.com/three-globe/example/img/earth-day.jpg')
+      .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
+      .showAtmosphere(true)
+      .pointOfView({ lat: 20, lng: 0, altitude: 2 })
+      .labelsData(data)
+      .labelText('text')
+      .labelSize(1.6)
+      .labelColor(() => 'white')
+      .onLabelClick(d => window.open(d.link, '_blank'));
+  </script>
 </body>
 </html>
